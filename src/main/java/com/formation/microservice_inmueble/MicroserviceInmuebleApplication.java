@@ -3,7 +3,7 @@ package com.formation.microservice_inmueble;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication()
 public class MicroserviceInmuebleApplication {
 
 	public static void main(String[] args) {
