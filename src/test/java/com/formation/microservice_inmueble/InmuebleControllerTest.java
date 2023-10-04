@@ -16,6 +16,9 @@ import org.mockito.Mock;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -41,9 +44,14 @@ public class InmuebleControllerTest {
 	}*/
 	@Test
 	public void createInmuebleHttpRequest() throws Exception{
+		LocalDate fecha = LocalDate.now();
 		inmueble = new Inmueble();
 		inmueble.setCodigoInmueble(1);
+		inmueble.setNombre("Los Rosales");
 		inmueble.setDireccion("8831 rue Saint Hubert");
+		inmueble.setFoto("/tmp/casa1.jpg");
+		inmueble.setPrecio(500000.0);
+		inmueble.setFechaCreacion(fecha);
 		inmueble.setTipo("casa");
 		inmueble.setTamano(80);
 
@@ -53,6 +61,10 @@ public class InmuebleControllerTest {
 						.andExpect(status().isOk())
 						.andExpect(jsonPath("$.id", is(1)))
 						.andExpect(jsonPath("$.codigoInmueble", is(1)))
+						.andExpect(jsonPath("$.nombre", is("Los Rosales")))
+						.andExpect(jsonPath("$.foto", is("/tmp/casa1.jpg")))
+						.andExpect(jsonPath("$.precio", is(500000.0)))
+						.andExpect(jsonPath("$.fechaCreacion", is(fecha.toString())))
 						.andExpect(jsonPath("$.tipo", is("casa")))
 						.andExpect(jsonPath("$.direccion", is("8831 rue Saint Hubert")))
 						.andExpect(jsonPath("$.tamano", is(80)));

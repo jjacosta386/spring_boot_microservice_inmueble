@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface InmuebleDao extends CrudRepository<Inmueble, Integer> {
+public interface InmuebleDao extends CrudRepository<Inmueble, Long> {
     public Optional<Inmueble> findByCodigoInmueble(int codigoInmueble);
 }

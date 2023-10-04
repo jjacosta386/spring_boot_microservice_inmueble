@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,16 +17,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestPropertySource("/application-test.properties")
 public class InmuebleServiceTest {
     @Autowired
-    private InmuebleService inmuebleService;
+    private InmuebleService inmuebleServiceImpl;
 
     @Autowired
     private InmuebleDao inmuebleDao;
     @Test
     public void createInmuebleService(){
-        Inmueble inmueble;
+        LocalDate fecha = LocalDate.now();
+        Inmueble inmueble = new Inmueble("Los Rosales", 2,"8831 rue Saint Hubert", "/tmp/casa1.jpg", 500000.0, fecha, "casa", 80);
         Optional<Inmueble> result;
-        inmueble = inmuebleService.createInmueble(2,"8831 rue Saint Hubert", "casa", 80);
-        result = inmuebleDao.findById(1);
+        inmueble = inmuebleServiceImpl.createInmueble(inmueble);
+        result = inmuebleDao.findById(1L);
         assertEquals(result.get().getId(), inmueble.getId(), "find by id");
     }
 }

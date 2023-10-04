@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class InmuebleController {
     private Inmueble inmueble;
     @Autowired
-    InmuebleService inmuebleService;
+    InmuebleService inmuebleServiceImpl;
 
     @PostMapping(value = "/")
     public Inmueble createInmueble(@RequestBody Inmueble inmueble){
-        this.inmueble = inmuebleService.createInmueble(inmueble.getCodigoInmueble(), inmueble.getDireccion(), inmueble.getTipo(), inmueble.getTamano());
+        this.inmueble = inmuebleServiceImpl.createInmueble(inmueble);
         return this.inmueble;
     }
 }
