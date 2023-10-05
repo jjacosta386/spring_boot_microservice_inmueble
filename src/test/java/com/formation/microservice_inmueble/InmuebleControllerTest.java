@@ -55,10 +55,10 @@ public class InmuebleControllerTest {
 		inmueble.setTipo("casa");
 		inmueble.setTamano(80);
 
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/")
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/inmueble")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(inmueble)))
-						.andExpect(status().isOk())
+						.andExpect(status().isCreated())
 						.andExpect(jsonPath("$.id", is(1)))
 						.andExpect(jsonPath("$.codigoInmueble", is(1)))
 						.andExpect(jsonPath("$.nombre", is("Los Rosales")))
