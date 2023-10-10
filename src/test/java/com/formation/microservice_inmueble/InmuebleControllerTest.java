@@ -4,6 +4,7 @@ import com.formation.microservice_inmueble.model.Inmueble;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,6 +23,8 @@ import java.time.format.DateTimeFormatter;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,12 +38,10 @@ public class InmuebleControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	private Inmueble inmueble;
-	/*@BeforeAll
+	/*@BeforeEach
 	public static void setup(){
-		request = new MockHttpServletRequest();
-		request.setParameter("tipo", "casa");
-		request.setParameter("direccion", "8831 rue Saint Hubert");
-		request.setParameter("tamano", "70");
+		this.mockMvc = MockMvcRequestBuilders
+				.webAppContextSetup()
 	}*/
 	@Test
 	public void createInmuebleHttpRequest() throws Exception{
@@ -55,7 +56,10 @@ public class InmuebleControllerTest {
 		inmueble.setTipo("casa");
 		inmueble.setTamano(80);
 
+
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/inmueble")
+						.with(httpBasic("jhon", "12345"))
+						.with(csrf())
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(inmueble)))
 						.andExpect(status().isCreated())
@@ -68,6 +72,13 @@ public class InmuebleControllerTest {
 						.andExpect(jsonPath("$.tipo", is("casa")))
 						.andExpect(jsonPath("$.direccion", is("8831 rue Saint Hubert")))
 						.andExpect(jsonPath("$.tamano", is(80)));
+	}
+
+	@Test
+	public void getHelloWorld() throws Exception{
+		mockMvc.perform(get("/api/v1/inmueble")
+						.with(httpBasic("jhon", "12345")))
+				.andExpect(status().isOk());
 	}
 
 }
