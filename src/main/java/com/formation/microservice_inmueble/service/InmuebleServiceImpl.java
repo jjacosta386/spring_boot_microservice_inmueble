@@ -15,8 +15,8 @@ public class InmuebleServiceImpl implements InmuebleService {
 
     @Override
     public Inmueble createInmueble(Inmueble inmueble){
-        Optional<Inmueble> result;
-        result = Optional.of(inmuebleDao.save(inmueble));
+        //Optional<Inmueble> result;
+        var result = Optional.of(inmuebleDao.save(inmueble));
         if(result.isPresent()) {
             return result.get();
         }

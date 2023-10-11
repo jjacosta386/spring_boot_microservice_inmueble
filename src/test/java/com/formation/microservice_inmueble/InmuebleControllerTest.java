@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.TestPropertySource;
 import org.mockito.Mock;
@@ -38,11 +39,13 @@ public class InmuebleControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	private Inmueble inmueble;
-	/*@BeforeEach
-	public static void setup(){
-		this.mockMvc = MockMvcRequestBuilders
-				.webAppContextSetup()
-	}*/
+
+	@Autowired
+	private JdbcTemplate jdbc;
+	@BeforeEach
+	public void setup(){
+		jdbc.execute("insert into users(id, username, password) values (1, 'jhon', '12345')");
+	}
 	@Test
 	public void createInmuebleHttpRequest() throws Exception{
 		LocalDate fecha = LocalDate.now();
