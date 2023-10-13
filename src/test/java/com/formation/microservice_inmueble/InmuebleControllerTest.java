@@ -3,6 +3,7 @@ package com.formation.microservice_inmueble;
 import com.formation.microservice_inmueble.model.Inmueble;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,9 @@ public class InmuebleControllerTest {
 	@BeforeEach
 	public void setup(){
 		jdbc.execute("insert into users(id, username, password) values (1, 'jhon', '12345')");
+		jdbc.execute("insert into authorities(id, name) values (1, 'read')");
+		jdbc.execute("insert into users_authorities(user_id, authority_id) values (1, 1)");
+
 	}
 	@Test
 	public void createInmuebleHttpRequest() throws Exception{
@@ -82,6 +86,12 @@ public class InmuebleControllerTest {
 		mockMvc.perform(get("/api/v1/inmueble")
 						.with(httpBasic("jhon", "12345")))
 				.andExpect(status().isOk());
+	}
+	@AfterEach
+	public void clean(){
+		jdbc.execute("delete from users_authorities");
+		jdbc.execute("delete from users");
+		jdbc.execute("delete from authorities");
 	}
 
 }

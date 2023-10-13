@@ -5,6 +5,7 @@ import com.formation.microservice_inmueble.service.InmuebleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,8 @@ public class InmuebleController {
     }
     @GetMapping
     public ResponseEntity<?> helloWorld(){
+        var u = SecurityContextHolder.getContext().getAuthentication();
+        u.getAuthorities().forEach(a -> System.out.println("Prueba Authorities " + a.getAuthority()));
         return new ResponseEntity<>("Hello World.", HttpStatus.OK);
     }
 }
