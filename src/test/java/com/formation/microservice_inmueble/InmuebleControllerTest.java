@@ -64,7 +64,7 @@ public class InmuebleControllerTest {
 		inmueble.setTamano(80);
 
 
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/inmueble")
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/inmueble/createInmueble/")
 						.with(httpBasic("jhon", "12345"))
 						.with(csrf())
 						.contentType(MediaType.APPLICATION_JSON)
@@ -83,7 +83,7 @@ public class InmuebleControllerTest {
 
 	@Test
 	public void getHelloWorld() throws Exception{
-		mockMvc.perform(get("/api/v1/inmueble")
+		mockMvc.perform(get("/api/v1/inmueble/hello")
 						.with(httpBasic("jhon", "12345")))
 				.andExpect(status().isOk());
 	}
